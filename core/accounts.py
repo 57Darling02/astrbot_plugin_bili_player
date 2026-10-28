@@ -246,7 +246,8 @@ class CredentialStore:
                 prefix=f".{self.path.name}.", suffix=".tmp", dir=self.path.parent
             )
             temporary_path = Path(temporary_name)
-            os.fchmod(file_descriptor, 0o600)
+            if os.name != "nt":
+                os.fchmod(file_descriptor, 0o600)
             with os.fdopen(file_descriptor, "wb") as file:
                 file_descriptor = None
                 file.write(payload)

@@ -1099,8 +1099,7 @@ class ListenMusicPlugin(Star):
             return error_response(
                 "仅 Dashboard 管理员可管理账号与运行状态", status_code=403
             )
-        get_json = getattr(request, "get_json", None)
-        payload = get_json(silent=True) if callable(get_json) else {}
+        payload = await request.json(default={})
         if not isinstance(payload, dict):
             payload = {}
         cookie_text = str(payload.get("cookies") or "").strip()
